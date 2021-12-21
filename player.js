@@ -20,8 +20,72 @@ function addGuideUrlScriptAndCssLink(){
     $("head").append(`<link rel="stylesheet" href=${cssUrl}>`);
 }
 
-function __5szm2kaj(responseObj) {
-    console.log(responseObj);
+function run(){
+    addScripts();
 }
 
-addScripts();
+function __5szm2kaj(responseObj) {
+    if(responseObj.error === 1){
+        console.log("coouldn't load guide");
+    }else if(responseObj.success === 1){
+        console.log(responseObj.data);
+        const steps = responseObj.data.structure.steps;
+        createSteps(steps);
+    }
+}
+
+function createSteps(steps){
+
+    for(const stepIndex in steps){
+        const step = steps[stepIndex];
+        if(step.action.type ==="tip"){
+            createStep(step);
+        }
+
+    }
+
+}
+
+function createStep(step){
+
+    const popOverDiv = createTiplateWrapper();
+    const contents = step.action.contents;
+    const tipContent = contents["#content"];
+    const tipContentElement = $(tipContent);
+
+    popOverDiv.append(tipContentElement);
+
+    $("body").append("<br>");
+    $("body").append("<br>");
+    $("body").append("<br>");
+    $("body").append("<br>");
+    $("body").append("<br>");
+    $("body").append("<br>");
+    $("body").append("<br>");
+
+}
+
+function createTiplateWrapper(){
+    const sttipDiv = $("<div></div>");
+    const tooltipInDiv = $("<div></div>");
+    const tooltipArrowDiv = $("<div></div>");
+    const secArrowDiv = $("<div></div>");
+    const popOverDiv = $("<div></div>");
+
+    $("body").append(sttipDiv);
+    sttipDiv.addClass("sttip");
+    tooltipInDiv.addClass("tooltip in");
+    tooltipArrowDiv.addClass("tooltip-arrow");
+    secArrowDiv.addClass("tooltip-arrow second-arrow");
+    popOverDiv.addClass("popover-inner");
+
+    sttipDiv.append(tooltipInDiv);
+    tooltipInDiv.append(tooltipArrowDiv);
+    tooltipArrowDiv.append(secArrowDiv);
+    secArrowDiv.append(popOverDiv);
+
+    return popOverDiv;
+
+}
+
+run();
