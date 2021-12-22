@@ -32,7 +32,7 @@ function __5szm2kaj(responseObj) {
         console.log(responseObj.data);
         const steps = responseObj.data.structure.steps;
         createSteps(steps, responseObj.data.tiplates);
-        drawStep(steps[0].id,steps[0].id,null);
+        drawStep(steps[0].id,steps[0].id);
 
     }
 }
@@ -68,7 +68,7 @@ function createStep(stepsLength, stepIndex, step, tiplate){
     $(closeButton).click((e)=>closeStep(`${step.id}`,e));
 
     const spans = $(`#${step.id}>.stFooter`).find(`span`).css("color","white");
-    //next two spans are responsible for "Steps CurrentStepIndex/stepsLength"
+    //next two spans are responsible for "Steps stepIndex/stepsLength"
     $(spans[1]).text(+(stepIndex)+1);
     $(spans[2]).text(stepsLength-1);
     //"powered by" span
@@ -105,8 +105,10 @@ function createTiplateWrapper(step){
     popOverDiv.addClass("popover-inner");
 
     sttipDiv.css("display","none");
+    sttipDiv.css("position","relative");
+    sttipDiv.css("top","15px");
+    sttipDiv.css("right","200px")
     targetOnDom.after(sttipDiv);//.css("position", "absolute")
-    console.log("placement", step.action.placement);
     sttipDiv.append(tooltipInDiv);
     tooltipInDiv.append(tooltipArrowDiv);
     tooltipArrowDiv.append(secArrowDiv);
