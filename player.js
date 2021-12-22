@@ -60,12 +60,18 @@ function createStep(stepsLength, stepIndex, step, tiplate){
     const tipContentElement = $(tipContent);
     const tiplateElement = $(tiplate).attr("id",`${step.id}`);
 
-
     popOverDiv.append(tiplateElement);
-    const spans = $(`#${step.id}>.stFooter`).find(`span`).css("color","white");
 
-    $(spans[1]).text(+(stepIndex)+1); //start count from 1, not 0
+    const buttons = $(`#${step.id}>.popover-title`).find(`button`);
+    const closeButton = buttons[1];
+    $(closeButton).attr("onClick",`closeStep("${step.id}")`);
+
+    const spans = $(`#${step.id}>.stFooter`).find(`span`).css("color","white");
+    //next two spans are responsible for "Steps CurrentStepIndex/stepsLength"
+    $(spans[1]).text(+(stepIndex)+1);
     $(spans[2]).text(stepsLength-1);
+    //"powered by" span
+    $(spans[3]).text( $(spans[3]).text()+" Oracle");
 
     const nextLink = $(`#${step.id}>div>div[data-iridize-role="nextBtPane"]>.next-btn`)
     $(nextLink).attr("onClick",`drawStep("${step.id}","${step.followers[0].next}")`);
@@ -119,6 +125,11 @@ function drawStep(prevStepId,stepId){
     if(stepObj.sttipDiv!==null){
         stepObj.sttipDiv.css("display","inline-block");
     }
+}
+
+function closeStep(stepId){
+    const stepObj =  createdStepsArray.find(stepObj => stepObj.id === stepId);
+    stepObj.sttipDiv.css("display","none");
 }
 
 run();
