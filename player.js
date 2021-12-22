@@ -32,7 +32,8 @@ function __5szm2kaj(responseObj) {
         console.log(responseObj.data);
         const steps = responseObj.data.structure.steps;
         createSteps(steps, responseObj.data.tiplates);
-        drawStep(steps[0].id,steps[0].id);
+        drawStep(steps[0].id,steps[0].id,null);
+
     }
 }
 
@@ -64,7 +65,7 @@ function createStep(stepsLength, stepIndex, step, tiplate){
 
     const buttons = $(`#${step.id}>.popover-title`).find(`button`);
     const closeButton = buttons[1];
-    $(closeButton).attr("onClick",`closeStep("${step.id}")`);
+    $(closeButton).click((e)=>closeStep(`${step.id}`,e));
 
     const spans = $(`#${step.id}>.stFooter`).find(`span`).css("color","white");
     //next two spans are responsible for "Steps CurrentStepIndex/stepsLength"
@@ -79,14 +80,6 @@ function createStep(stepsLength, stepIndex, step, tiplate){
 
     $(`#${step.id}>.popover-content>div`).append(tipContentElement);
 
-    $("body").append("<br>");
-    $("body").append("<br>");
-    $("body").append("<br>");
-    $("body").append("<br>");
-    $("body").append("<br>");
-    $("body").append("<br>");
-    $("body").append("<br>");
-
     createdStepsArray.push({id:step.id,sttipDiv:sttipDiv});
 
 
@@ -98,6 +91,10 @@ function createTiplateWrapper(step){
     const tooltipArrowDiv = $("<div></div>");
     const secArrowDiv = $("<div></div>");
     const popOverDiv = $("<div></div>");
+    const targetSelectorName = step.action.selector;
+    const targetOnDom = $( targetSelectorName).length>0 ?
+                        $( targetSelectorName) : $(defaultTargetOnDom(targetSelectorName)) ;
+    console.log("T", targetOnDom);
 
 
 
@@ -108,7 +105,8 @@ function createTiplateWrapper(step){
     popOverDiv.addClass("popover-inner");
 
     sttipDiv.css("display","none");
-    $("body").append(sttipDiv);
+    targetOnDom.after(sttipDiv);//.css("position", "absolute")
+    console.log("placement", step.action.placement);
     sttipDiv.append(tooltipInDiv);
     tooltipInDiv.append(tooltipArrowDiv);
     tooltipArrowDiv.append(secArrowDiv);
@@ -127,9 +125,19 @@ function drawStep(prevStepId,stepId){
     }
 }
 
-function closeStep(stepId){
+function closeStep(stepId,e){
     const stepObj =  createdStepsArray.find(stepObj => stepObj.id === stepId);
     stepObj.sttipDiv.css("display","none");
+    if(e!==null){
+        e.preventDefault();
+    }
+
+}
+
+function defaultTargetOnDom(selectorName){
+    if(selectorName==="#hplogo"){
+        return ".lnXdpd";
+    }
 }
 
 run();
