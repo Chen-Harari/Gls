@@ -29,7 +29,6 @@ function __5szm2kaj(responseObj) {
     if(responseObj.error === 1){
         console.log("coouldn't load guide");
     }else if(responseObj.success === 1){
-        console.log(responseObj.data);
         const steps = responseObj.data.structure.steps;
         createSteps(steps, responseObj.data.tiplates);
         drawStep(steps[0].id,steps[0].id);
@@ -94,7 +93,6 @@ function createTiplateWrapper(step){
     const targetSelectorName = step.action.selector;
     const targetOnDom = $( targetSelectorName).length>0 ?
                         $( targetSelectorName) : $(defaultTargetOnDom(targetSelectorName)) ;
-    console.log("T", targetOnDom);
 
 
 
@@ -108,7 +106,7 @@ function createTiplateWrapper(step){
     sttipDiv.css("position","relative");
     sttipDiv.css("top","15px");
     sttipDiv.css("right","200px")
-    targetOnDom.after(sttipDiv);//.css("position", "absolute")
+    targetOnDom.after(sttipDiv);
     sttipDiv.append(tooltipInDiv);
     tooltipInDiv.append(tooltipArrowDiv);
     tooltipArrowDiv.append(secArrowDiv);
