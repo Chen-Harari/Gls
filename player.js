@@ -27,7 +27,7 @@ function run(){
 
 function __5szm2kaj(responseObj) {
     if(responseObj.error === 1){
-        console.log("coouldn't load guide");
+        console.log("could not load guide");
     }else if(responseObj.success === 1){
         const steps = responseObj.data.structure.steps;
         createSteps(steps, responseObj.data.tiplates);
